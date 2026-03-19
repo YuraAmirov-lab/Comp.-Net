@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Задания по JS - Вариант 18</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 600px;
+            margin: 20px 0 0 20px; 
+            background: #f5f5f5;
+        }
+        .accordion {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+        }
+        .item {
+            border-bottom: 1px solid #eee;
+        }
+        .header {
+            background: #f0f0f0;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+        .header::after {
+            content: '▼';
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+        .item.active .header::after {
+            transform: rotate(180deg);
+        }
+        .content {
+            display: none;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+        }
+        .item.active .content {
+            display: block;
+        }
+        #datetime-block {
+            background: #2d2d2d;
+            color: #0f0;
+            padding: 15px 10px;
+            border-radius: 8px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+        .date-line, .time-line {
+            width: 100%;
+        }
+        .time-line {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Задания по JS - Вариант 18</h2>
+    <div class="accordion">
+        <div class="item active" id="datetime-item">
+            <div class="header">Задание 1 - Дата/время</div>
+            <div class="content">
+                <div id="datetime-block">
+                    <div class="date-line" id="dateDisplay"></div>
+                    <div class="time-line" id="timeDisplay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var monthNames = [
+            'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+            'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+        ];
+        var weekdayNames = [
+            'воскресенье', 'понедельник', 'вторник', 'среда',
+            'четверг', 'пятница', 'суббота'
+        ];
+
+        function addLeadingZero(n) {
+            if (n < 10) return '0' + n;
+            else return '' + n;
+        }
+
+        function formatDate(date) {
+            var day = addLeadingZero(date.getDate());
+            var month = monthNames[date.getMonth()];
+            var year = date.getFullYear();
+            var weekday = weekdayNames[date.getDay()];
+            return day + ' ' + month + ' ' + year + ', ' + weekday;
+        }
+
+        function formatTime(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            if (hours === 0) hours = 12;
+            var hh = addLeadingZero(hours);
+            var mm = addLeadingZero(minutes);
+            var ss = addLeadingZero(seconds);
+            return hh + ':' + mm + ':' + ss + ' ' + ampm;
+        }
+
+        var dateDisplay = document.getElementById('dateDisplay');
+        var timeDisplay = document.getElementById('timeDisplay');
+
+        function updateDateTime() {
+            var now = new Date();
+            dateDisplay.textContent = formatDate(now);
+            timeDisplay.textContent = formatTime(now);
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        var header = document.querySelector('.header');
+        var item = document.getElementById('datetime-item');
+        header.onclick = function() {
+            item.classList.toggle('active');
+        };
+    </script>
+</body>
+</html>
