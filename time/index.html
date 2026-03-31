@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Задания по JS - Вариант 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Задания по JS - Вариант 1</h2>
+    <div class="accordion">
+        <div class="item active" id="datetime-item">
+            <div class="header">Задание 1 - Дата/время</div>
+            <div class="content">
+                <div id="datetime-block">
+                    <div class="date-line" id="dateDisplay"></div>
+                    <div class="time-line" id="timeDisplay"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item" id="calendar-item">
+            <div class="header">Задание 2 - Календарь</div>
+            <div class="content">
+                <div class="calendar-wrapper">
+                    <div class="calendar-controls">
+                        <button class="cal-btn" id="prevMonthBtn">◀ Пред.</button>
+                        <span id="currentMonthYear"></span>
+                        <button class="cal-btn" id="nextMonthBtn">След. ▶</button>
+                        <button class="cal-btn today-btn" id="todayBtn">Сегодня</button>
+                    </div>
+                    <div id="calendarContainer"></div>
+                    <div id="selectedDateDisplay" class="selected-date"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item" id="dom-item">
+            <div class="header">Задание 3 - Поиск рисунков (IMG)</div>
+            <div class="content">
+                <p>Найти все изображения &lt;img&gt; на странице:</p>
+                <button id="findImagesBtn" class="action-btn">Найти и подсветить рисунки</button>
+                <div id="imagesResult" class="result-area"></div>
+                <hr>
+                <p><i>Тестовые рисунки для проверки:</i></p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <img src="https://picsum.photos/id/1/80/80" alt="тест 1">
+                    <img src="https://picsum.photos/id/2/80/80" alt="тест 2">
+                    <img src="https://picsum.photos/id/3/80/80" alt="тест 3">
+                    <div><img src="https://picsum.photos/id/4/80/80" alt="вложенный"></div>
+                </div>
+                <p>Обычный текст, не рисунок</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

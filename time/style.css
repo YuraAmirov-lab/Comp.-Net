@@ -1,0 +1,161 @@
+body {
+    font-family: Arial;
+    max-width: 600px;
+    margin: 20px 0 0 20px;
+    background: #f5f5f5;
+}
+
+.accordion {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+}
+
+.item {
+    border-bottom: 1px solid #eee;
+}
+
+.header {
+    background: #f0f0f0;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header::after {
+    content: '▼';
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.item.active .header::after {
+    transform: rotate(180deg);
+}
+
+.content {
+    display: none;
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.item.active .content {
+    display: block;
+}
+
+#datetime-block {
+    background: #2d2d2d;
+    color: #0f0;
+    padding: 15px 10px;
+    border-radius: 8px;
+    text-align: left;
+    font-family: monospace;
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.date-line, .time-line {
+    width: 100%;
+}
+
+.time-line {
+    margin-top: 5px;
+}
+
+.calendar-wrapper {
+    text-align: center;
+}
+.calendar-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.cal-btn {
+    background: #e0e0e0;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+.cal-btn:hover {
+    background: #d0d0d0;
+}
+.today-btn {
+    background: #4caf50;
+    color: white;
+    border-color: #4caf50;
+}
+.today-btn:hover {
+    background: #45a049;
+}
+#currentMonthYear {
+    font-weight: bold;
+    font-size: 1.2rem;
+    min-width: 140px;
+}
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+}
+.calendar-table th, .calendar-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+.calendar-table th {
+    background: #f5f5f5;
+    font-weight: normal;
+}
+.calendar-table td.weekend {
+    color: red;
+}
+.calendar-table td.today {
+    background: #ffeb3b;
+    font-weight: bold;
+}
+.calendar-table td.selected {
+    background: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+.calendar-table td.empty-cell {
+    background: #fafafa;
+    cursor: default;
+}
+.selected-date {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.action-btn {
+    background: #e0e0e0;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.result-area {
+    margin: 10px 0;
+    font-weight: bold;
+    color: #0066cc;
+}
+.highlight-image {
+    outline: 3px solid #ff9800;
+    background: #fff3cd;
+    transition: all 0.2s;
+}
