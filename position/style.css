@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    height: 200vh;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circles-container {
+    position: relative;
+    width: 180px;   
+    height: 180px;
+}
+
+.circle {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    top: 0;
+}
+
+.black {
+    background: #000000;
+    left: 0;
+    z-index: 1;
+}
+
+.white {
+    background: #ffffff;
+    right: 0;
+    z-index: 2;
+    transform: translateX(-90px);  
+}
