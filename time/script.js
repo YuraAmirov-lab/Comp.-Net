@@ -6,18 +6,11 @@ for (var i = 0; i < items.length; i++) {
     };
 }
 
-var monthNames = [
-    'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
-];
-var weekdayNames = [
-    'воскресенье', 'понедельник', 'вторник', 'среда',
-    'четверг', 'пятница', 'суббота'
-];
+var monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+var weekdayNames = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
 
 function addZero(num) {
-    if (num < 10) return '0' + num;
-    else return '' + num;
+    return num < 10 ? '0' + num : '' + num;
 }
 
 function formatDate(date) {
@@ -30,15 +23,12 @@ function formatDate(date) {
 
 function formatTime(date) {
     var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
-    var ampm = (hours >= 12) ? 'PM' : 'AM';
+    var minutes = addZero(date.getMinutes());
+    var seconds = addZero(date.getSeconds());
+    var ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     if (hours === 0) hours = 12;
-    var hh = addZero(hours);
-    var mm = addZero(minutes);
-    var ss = addZero(seconds);
-    return hh + ':' + mm + ':' + ss + ' ' + ampm;
+    return addZero(hours) + ':' + minutes + ':' + seconds + ' ' + ampm;
 }
 
 var dateDisplay = document.getElementById('dateDisplay');
@@ -55,19 +45,13 @@ setInterval(updateDateTime, 1000);
 
 var currentDate = new Date();
 var selectedDate = null;
-
-var monthsRu = [
-    "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-];
+var monthsRu = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 var daysOfWeek = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
 
 function renderCalendar() {
     var year = currentDate.getFullYear();
     var month = currentDate.getMonth();
-
-    var monthYearSpan = document.getElementById('currentMonthYear');
-    monthYearSpan.innerHTML = monthsRu[month] + ' ' + year;
+    document.getElementById('currentMonthYear').innerHTML = monthsRu[month] + ' ' + year;
 
     var container = document.getElementById('calendarContainer');
     container.innerHTML = '';
@@ -86,18 +70,16 @@ function renderCalendar() {
     table.appendChild(thead);
 
     var tbody = document.createElement('tbody');
-
     var firstDay = new Date(year, month, 1);
     var startOffset = firstDay.getDay();
     if (startOffset === 0) startOffset = 6;
     else startOffset = startOffset - 1;
 
     var daysInMonth = new Date(year, month + 1, 0).getDate();
-
     var row = document.createElement('tr');
+
     for (var i = 0; i < startOffset; i++) {
         var emptyCell = document.createElement('td');
-        emptyCell.innerHTML = '';
         emptyCell.className = 'empty-cell';
         row.appendChild(emptyCell);
     }
@@ -124,10 +106,8 @@ function renderCalendar() {
             cell.classList.add('selected');
         }
 
-        cell.onclick = (function(y, m, d) {
-            return function() {
-                selectDate(y, m, d);
-            };
+        (function(y, m, d) {
+            cell.onclick = function() { selectDate(y, m, d); };
         })(year, month, day);
 
         row.appendChild(cell);
@@ -135,7 +115,6 @@ function renderCalendar() {
         if ((dayOfWeekNum === 0 && day !== daysInMonth) || day === daysInMonth) {
             while (row.children.length < 7) {
                 var emptyCell2 = document.createElement('td');
-                emptyCell2.innerHTML = '';
                 emptyCell2.className = 'empty-cell';
                 row.appendChild(emptyCell2);
             }
@@ -150,39 +129,31 @@ function renderCalendar() {
 
 function selectDate(year, month, day) {
     selectedDate = new Date(year, month, day);
-    var display = document.getElementById('selectedDateDisplay');
-    display.innerHTML = 'Выбранная дата: ' + day + ' ' + monthsRu[month] + ' ' + year + ' года';
+    document.getElementById('selectedDateDisplay').innerHTML = 'Выбранная дата: ' + day + ' ' + monthsRu[month] + ' ' + year + ' года';
     renderCalendar();
 }
 
-function prevMonth() {
+document.getElementById('prevMonthBtn').onclick = function() {
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar();
-}
+};
 
-function nextMonth() {
+document.getElementById('nextMonthBtn').onclick = function() {
     currentDate.setMonth(currentDate.getMonth() + 1);
     renderCalendar();
-}
+};
 
-function goToToday() {
+document.getElementById('todayBtn').onclick = function() {
     currentDate = new Date();
     renderCalendar();
-}
+};
 
-document.getElementById('prevMonthBtn').onclick = prevMonth;
-document.getElementById('nextMonthBtn').onclick = nextMonth;
-document.getElementById('todayBtn').onclick = goToToday;
 renderCalendar();
 
-var findBtn = document.getElementById('findImagesBtn');
-var resultDiv = document.getElementById('imagesResult');
-
-findBtn.onclick = function() {
+document.getElementById('findImagesBtn').onclick = function() {
     var images = document.querySelectorAll('img');
-    var count = images.length;
-    resultDiv.innerHTML = 'Найдено рисунков: ' + count;
-
+    document.getElementById('imagesResult').innerHTML = 'Найдено рисунков: ' + images.length;
+    
     var highlighted = document.querySelectorAll('.highlight-image');
     for (var i = 0; i < highlighted.length; i++) {
         highlighted[i].classList.remove('highlight-image');
@@ -190,10 +161,115 @@ findBtn.onclick = function() {
 
     for (var i = 0; i < images.length; i++) {
         images[i].classList.add('highlight-image');
-        setTimeout(function(img) {
-            return function() {
+        (function(img) {
+            setTimeout(function() {
                 img.classList.remove('highlight-image');
-            };
-        }(images[i]), 2000);
+            }, 2000);
+        })(images[i]);
     }
+};
+
+var task4Interval = null;
+var task4Blocks = document.querySelectorAll('.task4-block');
+var task4StartBtn = document.getElementById('startTask4Btn');
+var task4ResetBtn = document.getElementById('resetTask4Btn');
+
+task4StartBtn.onclick = function() {
+    if (task4Interval) {
+        clearInterval(task4Interval);
+        task4Interval = null;
+        task4StartBtn.innerHTML = '▶ Запустить';
+        return;
+    }
+    
+    task4StartBtn.innerHTML = '⏸ Остановить';
+    
+    task4Interval = setInterval(function() {
+        var visible = [];
+        for (var i = 0; i < task4Blocks.length; i++) {
+            if (!task4Blocks[i].classList.contains('hidden-block')) {
+                visible.push(task4Blocks[i]);
+            }
+        }
+        
+        if (visible.length === 0) {
+            clearInterval(task4Interval);
+            task4Interval = null;
+            task4StartBtn.innerHTML = '▶ Запустить';
+            return;
+        }
+        
+        var randIndex = Math.floor(Math.random() * visible.length);
+        visible[randIndex].classList.add('hidden-block');
+    }, 120);
+};
+
+task4ResetBtn.onclick = function() {
+    clearInterval(task4Interval);
+    task4Interval = null;
+    for (var i = 0; i < task4Blocks.length; i++) {
+        task4Blocks[i].classList.remove('hidden-block');
+    }
+    task4StartBtn.innerHTML = '▶ Запустить';
+};
+
+var paragraphsContainer = document.getElementById('paragraphsContainer');
+var addParagraphBtn = document.getElementById('addParagraphBtn');
+var clearParagraphsBtn = document.getElementById('clearParagraphsBtn');
+var paragraphCounter = 0;
+
+addParagraphBtn.onclick = function() {
+    while (true) {
+        var text = prompt('Введите текст для абзаца (или нажмите ESC для отмены):');
+        if (text === null) break;
+        if (text.trim() === '') {
+            alert('Введите текст!');
+            continue;
+        }
+        paragraphCounter++;
+        var p = document.createElement('p');
+        p.innerHTML = text + '<button class="delete-btn">Удалить</button>';
+        p.setAttribute('data-number', paragraphCounter);
+        
+        var deleteBtn = p.querySelector('.delete-btn');
+        deleteBtn.onclick = function() {
+            var parentP = this.parentElement;
+            var content = parentP.childNodes[0].textContent;
+            var number = parentP.getAttribute('data-number');
+            if (confirm('Удалить абзац #' + number + ':\n\n"' + content + '"')) {
+                parentP.remove();
+            }
+        };
+        
+        if (paragraphsContainer.firstChild) {
+            paragraphsContainer.insertBefore(p, paragraphsContainer.firstChild);
+        } else {
+            paragraphsContainer.appendChild(p);
+        }
+        break;
+    }
+};
+
+clearParagraphsBtn.onclick = function() {
+    var paragraphs = paragraphsContainer.querySelectorAll('p');
+    if (paragraphs.length === 0) {
+        alert('Нет абзацев для удаления!');
+        return;
+    }
+    if (confirm('Удалить все абзацы (' + paragraphs.length + ' шт.)?')) {
+        paragraphsContainer.innerHTML = '<p style="color: #999; font-style: italic;">Нажмите "Добавить абзац" для создания элементов</p>';
+        paragraphCounter = 0;
+    }
+};
+
+var hoverTarget = document.getElementById('hoverTarget');
+var displayedImage = document.getElementById('displayedImage');
+var imageArray = ['images/1.jpg', 'images/2.jpg', 'images/3.jpg'];
+var currentImageIndex = 0;
+
+displayedImage.src = imageArray[0];
+
+hoverTarget.onmouseover = function() {
+    currentImageIndex = (currentImageIndex + 1) % imageArray.length;
+    displayedImage.src = imageArray[currentImageIndex];
 };

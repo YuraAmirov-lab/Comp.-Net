@@ -2,13 +2,15 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Задания по JS - Вариант 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задания по JS (6 заданий)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Задания по JS - Вариант 1</h2>
+    <h2>Задания по JS</h2>
+    
     <div class="accordion">
-        <div class="item active" id="datetime-item">
+        <div class="item">
             <div class="header">Задание 1 - Дата/время</div>
             <div class="content">
                 <div id="datetime-block">
@@ -18,37 +20,76 @@
             </div>
         </div>
 
-        <div class="item" id="calendar-item">
+        <div class="item">
             <div class="header">Задание 2 - Календарь</div>
             <div class="content">
                 <div class="calendar-wrapper">
                     <div class="calendar-controls">
-                        <button class="cal-btn" id="prevMonthBtn">◀ Пред.</button>
+                        <button id="prevMonthBtn" class="cal-btn">◀ Пред.</button>
+                        <button id="todayBtn" class="cal-btn today-btn">Сегодня</button>
+                        <button id="nextMonthBtn" class="cal-btn">След. ▶</button>
                         <span id="currentMonthYear"></span>
-                        <button class="cal-btn" id="nextMonthBtn">След. ▶</button>
-                        <button class="cal-btn today-btn" id="todayBtn">Сегодня</button>
                     </div>
                     <div id="calendarContainer"></div>
-                    <div id="selectedDateDisplay" class="selected-date"></div>
+                    <div class="selected-date" id="selectedDateDisplay"></div>
                 </div>
             </div>
         </div>
 
-        <div class="item" id="dom-item">
+        <div class="item">
             <div class="header">Задание 3 - Поиск рисунков (IMG)</div>
             <div class="content">
                 <p>Найти все изображения &lt;img&gt; на странице:</p>
                 <button id="findImagesBtn" class="action-btn">Найти и подсветить рисунки</button>
                 <div id="imagesResult" class="result-area"></div>
-                <hr>
-                <p><i>Тестовые рисунки для проверки:</i></p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <img src="https://picsum.photos/id/1/80/80" alt="тест 1">
-                    <img src="https://picsum.photos/id/2/80/80" alt="тест 2">
-                    <img src="https://picsum.photos/id/3/80/80" alt="тест 3">
-                    <div><img src="https://picsum.photos/id/4/80/80" alt="вложенный"></div>
-                </div>
+                <p>Тестовые рисунки для проверки:</p>
+                <img src="images/1.jpg" alt="test1" width="80" height="80">
+                <img src="images/2.jpg" alt="test2" width="80" height="80">
+                <img src="images/3.jpg" alt="test3" width="80" height="80">
+                <img src="images/4.jpg" alt="test4" width="80" height="80">
                 <p>Обычный текст, не рисунок</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="header">Задание 4 - Изменение объекта</div>
+            <div class="content">
+                <p><b>Вариант 2:</b> Через 120мс удалять из видимости один из блоков (номер выбирается рандомно).</p>
+                <button id="startTask4Btn" class="action-btn">▶ Запустить</button>
+                <button id="resetTask4Btn" class="action-btn">↺ Сбросить</button>
+                <div class="task4-container">
+                    <div class="task4-block">Блок 1</div>
+                    <div class="task4-block">Блок 2</div>
+                    <div class="task4-block">Блок 3</div>
+                    <div class="task4-block">Блок 4</div>
+                    <div class="task4-block">Блок 5</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="header">Задание 5 - Создание элементов</div>
+            <div class="content">
+                <p><b>Вариант 1:</b> Абзацы (&lt;p&gt;) в &lt;div&gt;. Порядок: обратный (добавление в начало).</p>
+                <button id="addParagraphBtn" class="action-btn">➕ Добавить абзац</button>
+                <button id="clearParagraphsBtn" class="action-btn">🗑 Очистить все</button>
+                <div id="paragraphsContainer" class="paragraphs-container">
+                    <p style="color: #999; font-style: italic;">Нажмите "Добавить абзац" для создания элементов</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="header">Задание 6 - События мыши</div>
+            <div class="content">
+                <p><b>Вариант 1:</b> Наведение курсора → смена одной из трех картинок.</p>
+                <p>Наведите курсор на зеленый блок ниже:</p>
+                <div id="hoverTarget" class="hover-target">
+                    Наведи на меня
+                </div>
+                <div id="imageContainer" class="image-container">
+                    <img id="displayedImage" src="" alt="Изменение при наведении">
+                </div>
             </div>
         </div>
     </div>
