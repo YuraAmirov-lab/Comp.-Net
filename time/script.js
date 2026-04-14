@@ -273,3 +273,51 @@ hoverTarget.onmouseover = function() {
     currentImageIndex = (currentImageIndex + 1) % imageArray.length;
     displayedImage.src = imageArray[currentImageIndex];
 };
+
+var sweetsList = document.getElementById('sweetsList');
+var sweetsMessage = document.getElementById('sweetsMessage');
+var resetSweetsBtn = document.getElementById('resetSweetsBtn');
+
+function checkAllSweetsGone() {
+    var visibleItems = document.querySelectorAll('#sweetsList li:not(.sweet-fade-out)');
+    if (visibleItems.length === 0) {
+        sweetsMessage.style.display = 'block';
+    } else {
+        sweetsMessage.style.display = 'none';
+    }
+}
+
+sweetsList.addEventListener('click', function(event) {
+    var li = event.target.closest('li');
+    if (!li) return;
+    if (li.classList.contains('sweet-fade-out') || li.style.display === 'none') return;
+
+    li.classList.add('sweet-fade-out');
+
+    var onFadeEnd = function() {
+        li.style.display = 'none';
+        checkAllSweetsGone();
+    };
+
+    li.addEventListener('transitionend', onFadeEnd, { once: true });
+    setTimeout(function() {
+        if (li.style.display !== 'none') onFadeEnd();
+    }, 350);
+});
+
+resetSweetsBtn.onclick = function() {
+    var allLi = document.querySelectorAll('#sweetsList li');
+    for (var i = 0; i < allLi.length; i++) {
+        allLi[i].style.display = '';
+        allLi[i].classList.remove('sweet-fade-out');
+    }
+    sweetsMessage.style.display = 'none';
+};
+
+var hoverImage = document.getElementById('hoverImage');
+hoverImage.onmouseover = function() {
+    this.classList.add('fade-out');
+};
+hoverImage.onmouseout = function() {
+    this.classList.remove('fade-out');
+};
