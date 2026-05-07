@@ -321,3 +321,388 @@ hoverImage.onmouseover = function() {
 hoverImage.onmouseout = function() {
     this.classList.remove('fade-out');
 };
+
+// ========== ЗАДАНИЕ 9: Анкета веб-разработчика (простая проверка email) ==========
+(function() {
+    const form = document.getElementById('anketaForm');
+    if (!form) return;
+
+    const regName = document.getElementById('regName');
+    const regPassword = document.getElementById('regPassword');
+    const regConfirm = document.getElementById('regConfirmPassword');
+    const regEmail = document.getElementById('regEmail');
+
+    // Элементы для ошибок
+    const nameError = document.getElementById('regNameError');
+    const passError = document.getElementById('regPasswordError');
+    const confirmError = document.getElementById('regConfirmError');
+    const emailError = document.getElementById('regEmailError');
+
+    const successDiv = document.getElementById('anketaSuccessMessage');
+
+    // Функция проверки email (наличие @ и точки после @)
+    function isValidEmail(email) {
+        if (!email) return false;
+        const atPos = email.indexOf('@');
+        if (atPos === -1) return false;
+        const dotPos = email.indexOf('.', atPos);
+        return dotPos > atPos + 1;
+    }
+
+    function showError(input, errorDiv, message) {
+        if (input) input.classList.add('error-input');
+        if (errorDiv) errorDiv.textContent = message;
+    }
+
+    function clearError(input, errorDiv) {
+        if (input) input.classList.remove('error-input');
+        if (errorDiv) errorDiv.textContent = '';
+    }
+
+    function validateAnketa() {
+        let isValid = true;
+
+        // Имя
+        if (!regName.value.trim()) {
+            showError(regName, nameError, 'Введите регистрационное имя');
+            isValid = false;
+        } else {
+            clearError(regName, nameError);
+        }
+
+        // Пароль
+        if (!regPassword.value) {
+            showError(regPassword, passError, 'Введите пароль');
+            isValid = false;
+        } else if (regPassword.value.length < 4) {
+            showError(regPassword, passError, 'Пароль должен быть не менее 4 символов');
+            isValid = false;
+        } else {
+            clearError(regPassword, passError);
+        }
+
+        // Подтверждение пароля
+        if (!regConfirm.value) {
+            showError(regConfirm, confirmError, 'Подтвердите пароль');
+            isValid = false;
+        } else if (regConfirm.value !== regPassword.value) {
+            showError(regConfirm, confirmError, 'Пароли не совпадают');
+            isValid = false;
+        } else {
+            clearError(regConfirm, confirmError);
+        }
+
+        // Email
+        if (!regEmail.value.trim()) {
+            showError(regEmail, emailError, 'Введите E-mail');
+            isValid = false;
+        } else if (!isValidEmail(regEmail.value.trim())) {
+            showError(regEmail, emailError, 'E-mail должен содержать "@" и точку после него (например, name@domain.ru)');
+            isValid = false;
+        } else {
+            clearError(regEmail, emailError);
+        }
+
+        return isValid;
+    }
+
+    // Отправка формы
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (validateAnketa()) {
+            successDiv.style.display = 'block';
+            successDiv.textContent = '✅ Регистрация успешно пройдена (простая проверка email выполнена)!';
+            // Не очищаем форму, чтобы пользователь видел введённые данные
+        } else {
+            successDiv.style.display = 'none';
+        }
+    });
+
+    // Очистка формы (кнопка "Очистить форму")
+    document.getElementById('resetFormBtn').addEventListener('click', function() {
+        form.reset();
+        // Убираем подсветку ошибок
+        document.querySelectorAll('.error-input').forEach(el => el.classList.remove('error-input'));
+        document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+        successDiv.style.display = 'none';
+    });
+
+    // Живая валидация при потере фокуса
+    [regName, regPassword, regConfirm, regEmail].forEach(field => {
+        field.addEventListener('blur', () => validateAnketa());
+        field.addEventListener('focus', () => { successDiv.style.display = 'none'; });
+    });
+})();
+(function() {
+    const form9 = document.getElementById('anketaForm');
+    if (form9) {
+        const regName = document.getElementById('regName');
+        const regPassword = document.getElementById('regPassword');
+        const regConfirm = document.getElementById('regConfirmPassword');
+        const regEmail = document.getElementById('regEmail');
+        const nameError = document.getElementById('regNameError');
+        const passError = document.getElementById('regPasswordError');
+        const confirmError = document.getElementById('regConfirmError');
+        const emailError = document.getElementById('regEmailError');
+        const successDiv = document.getElementById('anketaSuccessMessage');
+
+        function isValidEmail(email) {
+            if (!email) return false;
+            const atPos = email.indexOf('@');
+            if (atPos === -1) return false;
+            const dotPos = email.indexOf('.', atPos);
+            return dotPos > atPos + 1;
+        }
+
+        function showError(input, errorDiv, message) {
+            if (input) input.classList.add('error-input');
+            if (errorDiv) errorDiv.textContent = message;
+        }
+        function clearError(input, errorDiv) {
+            if (input) input.classList.remove('error-input');
+            if (errorDiv) errorDiv.textContent = '';
+        }
+        function validateAnketa() {
+            let isValid = true;
+            if (!regName.value.trim()) {
+                showError(regName, nameError, 'Введите регистрационное имя');
+                isValid = false;
+            } else {
+                clearError(regName, nameError);
+            }
+            if (!regPassword.value) {
+                showError(regPassword, passError, 'Введите пароль');
+                isValid = false;
+            } else if (regPassword.value.length < 4) {
+                showError(regPassword, passError, 'Пароль должен быть не менее 4 символов');
+                isValid = false;
+            } else {
+                clearError(regPassword, passError);
+            }
+            if (!regConfirm.value) {
+                showError(regConfirm, confirmError, 'Подтвердите пароль');
+                isValid = false;
+            } else if (regConfirm.value !== regPassword.value) {
+                showError(regConfirm, confirmError, 'Пароли не совпадают');
+                isValid = false;
+            } else {
+                clearError(regConfirm, confirmError);
+            }
+            if (!regEmail.value.trim()) {
+                showError(regEmail, emailError, 'Введите E-mail');
+                isValid = false;
+            } else if (!isValidEmail(regEmail.value.trim())) {
+                showError(regEmail, emailError, 'E-mail должен содержать "@" и точку после него');
+                isValid = false;
+            } else {
+                clearError(regEmail, emailError);
+            }
+            return isValid;
+        }
+        form9.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateAnketa()) {
+                successDiv.style.display = 'block';
+                successDiv.textContent = '✅ Регистрация успешно пройдена (простая проверка email выполнена)!';
+            } else {
+                successDiv.style.display = 'none';
+            }
+        });
+        document.getElementById('resetFormBtn').addEventListener('click', function() {
+            form9.reset();
+            document.querySelectorAll('#anketaForm .error-input').forEach(el => el.classList.remove('error-input'));
+            document.querySelectorAll('#anketaForm .error-message').forEach(el => el.textContent = '');
+            successDiv.style.display = 'none';
+        });
+        [regName, regPassword, regConfirm, regEmail].forEach(field => {
+            field.addEventListener('blur', () => validateAnketa());
+            field.addEventListener('focus', () => { successDiv.style.display = 'none'; });
+        });
+    }
+})();
+
+(function() {
+    const form10 = document.getElementById('complexForm');
+    if (form10) {
+        const login = document.getElementById('login');
+        const password = document.getElementById('password10');
+        const confirmPwd = document.getElementById('confirmPassword10');
+        const email = document.getElementById('email10');
+        const phone = document.getElementById('phone10');
+        const birthdate = document.getElementById('birthdate10');
+        const fio = document.getElementById('fio10');
+        const faculty = document.getElementById('faculty10');
+        const department = document.getElementById('department10');
+
+        const loginError = document.getElementById('loginError');
+        const passwordError = document.getElementById('password10Error');
+        const confirmError = document.getElementById('confirm10Error');
+        const emailError = document.getElementById('email10Error');
+        const phoneError = document.getElementById('phone10Error');
+        const birthdateError = document.getElementById('birthdate10Error');
+        const fioError = document.getElementById('fio10Error');
+        const facultyError = document.getElementById('faculty10Error');
+        const departmentError = document.getElementById('department10Error');
+
+        const successDiv = document.getElementById('complexSuccessMessage');
+
+        const loginRegex = /^[a-zA-Z0-9_]{4,20}$/;
+        const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        const phoneRegex = /^(\+7|7|8)?[\s\-]?\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+        const fioRegex = /^[A-Za-zА-Яа-яёЁ]+([\s\-][A-Za-zА-Яа-яёЁ]+){1,2}$/;
+        const facultyDeptRegex = /^[а-яА-Яa-zA-Z0-9\s\-]{2,50}$/;
+
+        function isValidEmailComplex(emailStr) {
+            const atPos = emailStr.indexOf('@');
+            if (atPos === -1) return false;
+            const localPart = emailStr.substring(0, atPos);
+            const domainPart = emailStr.substring(atPos + 1);
+            if (!localPart.match(/^[A-Za-z0-9]{2,}$/)) return false;
+            const parts = domainPart.split('.');
+            if (parts.length < 2) return false;
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                if (!part.match(/^[A-Za-z0-9]{2,}$/)) return false;
+                if (i === parts.length - 1) {
+                    if (part.length > 4) return false;
+                } else {
+                    if (part.length < 2) return false;
+                }
+            }
+            return true;
+        }
+
+        function isValidDate(dateStr) {
+            if (!dateStr) return false;
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return false;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            if (date > today) return false;
+            let age = today.getFullYear() - date.getFullYear();
+            const monthDiff = today.getMonth() - date.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < date.getDate())) age--;
+            return age >= 18 && age <= 100;
+        }
+
+        function showError(input, errorDiv, message) {
+            if (input) input.classList.add('error-input');
+            if (errorDiv) errorDiv.textContent = message;
+        }
+        function clearError(input, errorDiv) {
+            if (input) input.classList.remove('error-input');
+            if (errorDiv) errorDiv.textContent = '';
+        }
+
+        function validateComplexForm() {
+            let isValid = true;
+            if (!login.value.trim()) {
+                showError(login, loginError, 'Введите логин');
+                isValid = false;
+            } else if (!loginRegex.test(login.value.trim())) {
+                showError(login, loginError, 'Логин должен содержать 4-20 символов: латиница, цифры, _');
+                isValid = false;
+            } else {
+                clearError(login, loginError);
+            }
+            if (!password.value) {
+                showError(password, passwordError, 'Введите пароль');
+                isValid = false;
+            } else if (!pwdRegex.test(password.value)) {
+                showError(password, passwordError, 'Пароль: минимум 6 символов, хотя бы одна буква и одна цифра');
+                isValid = false;
+            } else {
+                clearError(password, passwordError);
+            }
+            if (!confirmPwd.value) {
+                showError(confirmPwd, confirmError, 'Подтвердите пароль');
+                isValid = false;
+            } else if (confirmPwd.value !== password.value) {
+                showError(confirmPwd, confirmError, 'Пароли не совпадают');
+                isValid = false;
+            } else {
+                clearError(confirmPwd, confirmError);
+            }
+            if (!email.value.trim()) {
+                showError(email, emailError, 'Введите E-mail');
+                isValid = false;
+            } else if (!isValidEmailComplex(email.value.trim())) {
+                showError(email, emailError, 'Email должен быть вида: local@domain.ru, где local ≥2 букв/цифр, после @ цепочки ≥2 символов, последняя ≤4');
+                isValid = false;
+            } else {
+                clearError(email, emailError);
+            }
+            if (!phone.value.trim()) {
+                showError(phone, phoneError, 'Введите номер телефона');
+                isValid = false;
+            } else if (!phoneRegex.test(phone.value.trim())) {
+                showError(phone, phoneError, 'Введите российский номер: +7XXXXXXXXXX или 8XXXXXXXXXX');
+                isValid = false;
+            } else {
+                clearError(phone, phoneError);
+            }
+            if (!birthdate.value) {
+                showError(birthdate, birthdateError, 'Выберите дату рождения');
+                isValid = false;
+            } else if (!isValidDate(birthdate.value)) {
+                showError(birthdate, birthdateError, 'Дата должна быть корректной, возраст от 18 до 100 лет');
+                isValid = false;
+            } else {
+                clearError(birthdate, birthdateError);
+            }
+            if (!fio.value.trim()) {
+                showError(fio, fioError, 'Введите ФИО');
+                isValid = false;
+            } else if (!fioRegex.test(fio.value.trim())) {
+                showError(fio, fioError, 'ФИО: минимум два слова (буквы, дефис, пробел)');
+                isValid = false;
+            } else {
+                clearError(fio, fioError);
+            }
+            if (!faculty.value.trim()) {
+                showError(faculty, facultyError, 'Введите факультет');
+                isValid = false;
+            } else if (!facultyDeptRegex.test(faculty.value.trim())) {
+                showError(faculty, facultyError, 'Факультет: 2-50 символов, буквы, цифры, пробел, дефис');
+                isValid = false;
+            } else {
+                clearError(faculty, facultyError);
+            }
+            if (!department.value.trim()) {
+                showError(department, departmentError, 'Введите кафедру');
+                isValid = false;
+            } else if (!facultyDeptRegex.test(department.value.trim())) {
+                showError(department, departmentError, 'Кафедра: 2-50 символов, буквы, цифры, пробел, дефис');
+                isValid = false;
+            } else {
+                clearError(department, departmentError);
+            }
+            return isValid;
+        }
+
+        form10.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateComplexForm()) {
+                successDiv.style.display = 'block';
+                successDiv.textContent = '✅ Все поля заполнены корректно! Сложная проверка пройдена.';
+            } else {
+                successDiv.style.display = 'none';
+            }
+        });
+
+        document.getElementById('resetComplexBtn').addEventListener('click', function() {
+            form10.reset();
+            document.querySelectorAll('#complexForm .error-input').forEach(el => el.classList.remove('error-input'));
+            document.querySelectorAll('#complexForm .error-message').forEach(el => el.textContent = '');
+            successDiv.style.display = 'none';
+        });
+
+        const allFields = [login, password, confirmPwd, email, phone, birthdate, fio, faculty, department];
+        allFields.forEach(field => {
+            if (field) {
+                field.addEventListener('blur', () => validateComplexForm());
+                field.addEventListener('focus', () => { successDiv.style.display = 'none'; });
+            }
+        });
+    }
+})();
