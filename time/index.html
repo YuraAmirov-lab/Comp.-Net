@@ -111,7 +111,7 @@
 
         <div class="item">
             <div class="header">Задание 8 - Прозрачность картинки при наведении</div>
-             <div class="content">
+            <div class="content">
                 <p>Наведите курсор на картинку.</p>
                 <div class="image-overlay-container">
                     <div class="behind-text">Текст за картинкой</div>
@@ -120,84 +120,159 @@
             </div>
         </div>
 
-<div class="item">
-    <div class="header">Задание 9-10 - Форма регистрации </div>
-    <div class="content">
-        <form id="complexForm" class="full-form">
-            <div class="form-row">
-                <div class="form-group half">
-                    <label>Логин <span class="required">*</span></label>
-                    <input type="text" id="compLogin" class="form-control">
-                    <div class="error-message" id="compLoginError"></div>
-                </div>
-                <div class="form-group half">
-                    <label>Имя <span class="required">*</span></label>
-                    <input type="text" id="compName" class="form-control">
-                    <div class="error-message" id="compNameError"></div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group half">
-                    <label>Пароль <span class="required">*</span></label>
-                    <input type="password" id="compPassword" class="form-control">
-                    <div class="error-message" id="compPasswordError"></div>
-                </div>
-                <div class="form-group half">
-                    <label>Повторите пароль <span class="required">*</span></label>
-                    <input type="password" id="compConfirmPassword" class="form-control">
-                    <div class="error-message" id="compConfirmError"></div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group half">
-                    <label>E-mail <span class="required">*</span> (сложная проверка)</label>
-                    <input type="email" id="compEmail" class="form-control">
-                    <div class="error-message" id="compEmailError"></div>
-                </div>
-                <div class="form-group half">
-                    <label>Дата рождения <span class="required">*</span></label>
-                    <input type="date" id="compBirthdate" class="form-control">
-                    <div class="error-message" id="compBirthdateError"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>О себе <span class="required">*</span> (минимум 20 символов)</label>
-                <textarea id="compAbout" class="form-control" rows="3"></textarea>
-                <div class="error-message" id="compAboutError"></div>
-            </div>
-            <div class="form-group">
-                <label>Навыки <span class="required">*</span> (минимум 20 символов)</label>
-                <textarea id="compSkills" class="form-control" rows="3"></textarea>
-                <div class="error-message" id="compSkillsError"></div>
-            </div>
-            <div class="form-group">
-                <label>Опыт работы (лет)</label>
-                <input type="number" id="compExperience" class="form-control" min="0" step="1">
-                <div class="error-message" id="compExperienceError"></div>
-            </div>
-            <div class="form-group">
-                <label>Ваш пол</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="gender" value="male"> Мужской</label>
-                    <label><input type="radio" name="gender" value="female"> Женский</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="compAgree" class="checkbox"> Я согласен с условиями <span class="required">*</span>
-                </label>
-                <div class="error-message" id="compAgreeError"></div>
-            </div>
-            <div class="form-buttons">
-                <button type="submit" class="submit-btn">Отправить</button>
-                <button type="reset" class="reset-btn" id="compResetBtn">Очистить</button>
-            </div>
-            <div id="compSuccessMessage" class="success-message" style="display: none;"></div>
-        </form>
-    </div>
-</div>
-        
+        <div class="item">
+            <div class="header">Задание 9 — Простая проверка формы</div>
+            <div class="content">
 
-    <script src="script.js"></script>
+                <form id="simpleForm" class="full-form">
+
+                    <div class="form-group">
+                        <label>Логин *</label>
+                        <input type="text" id="simpleLogin" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Пароль *</label>
+                        <input type="password" id="simplePassword" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail *</label>
+                        <input type="text" id="simpleEmail" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Телефон *</label>
+                        <input type="text" id="simplePhone" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ФИО *</label>
+                        <input type="text" id="simpleFio" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Факультет *</label>
+                        <input type="text" id="simpleFaculty" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Кафедра *</label>
+                        <input type="text" id="simpleDepartment" class="form-control">
+                        <div class="error-message"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Проверить</button>
+
+                </form>
+
+            </div>
+        </div>
+        <div class="item">
+            <div class="header">Задание 10 — Сложная проверка формы (RegExp)</div>
+            <div class="content">
+
+                <form id="complexForm" class="full-form">
+
+                    <div class="form-group">
+                        <label>Логин *</label>
+                        <input type="text" id="compLogin" class="form-control">
+                        <div class="error-message" id="compLoginError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Пароль *</label>
+                        <input type="password" id="compPassword" class="form-control">
+                        <div class="error-message" id="compPasswordError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Повторите пароль *</label>
+                        <input type="password" id="compConfirmPassword" class="form-control">
+                        <div class="error-message" id="compConfirmError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail *</label>
+                        <input type="text" id="compEmail" class="form-control">
+                        <div class="error-message" id="compEmailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Телефон *</label>
+                        <input type="text" id="compPhone" class="form-control">
+                        <div class="error-message" id="compPhoneError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Дата рождения *</label>
+                        <input type="date" id="compBirthdate" class="form-control">
+                        <div class="error-message" id="compBirthdateError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ФИО *</label>
+                        <input type="text" id="compFio" class="form-control">
+                        <div class="error-message" id="compFioError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Факультет *</label>
+                        <input type="text" id="compFaculty" class="form-control">
+                        <div class="error-message" id="compFacultyError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Кафедра *</label>
+                        <input type="text" id="compDepartment" class="form-control">
+                        <div class="error-message" id="compDepartmentError"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Отправить</button>
+
+                </form>
+
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="header">Задание 11 — Игра на скорость печати</div>
+            <div class="content">
+
+                <div class="typing-header">
+                    <p>Напечатайте текст как можно быстрее и без ошибок.</p>
+                    <div class="record-block">
+                        🏆 Рекорд: <span id="recordCpm">0</span> симв/мин
+                    </div>
+                </div>
+
+                <div id="typingText" class="typing-text"></div>
+
+                <textarea id="typingInput"
+                          class="form-control typing-input-large"
+                          rows="8"
+                          placeholder="Начните печатать здесь..."
+                          disabled></textarea>
+
+                <div class="typing-stats">
+                    ⏱ Время: <span id="timeLeft">30</span> сек |
+                    ⌨ Скорость: <span id="cpm">0</span> симв/мин |
+                    🎯 Точность: <span id="accuracy">100</span>%
+                </div>
+
+                <button id="startTypingBtn" class="action-btn">▶ Начать</button>
+                <button id="restartTypingBtn" class="action-btn">🔄 Сброс</button>
+
+            </div>
+        </div>
+
+
+        <script src="script.js"></script>
 </body>
 </html>

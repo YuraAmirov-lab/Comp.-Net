@@ -322,216 +322,356 @@ hoverImage.onmouseout = function() {
     this.classList.remove('fade-out');
 };
 
-// ... ваш существующий код для заданий 1-8 (не трогайте) ...
+(function(){
 
-// ========== ЗАДАНИЕ 10: КОМПЛЕКСНАЯ ВАЛИДАЦИЯ ==========
-(function() {
-    const form = document.getElementById('complexForm');
-    if (!form) return;
+const form = document.getElementById('simpleForm');
+if (!form) return;
 
-    const login = document.getElementById('compLogin');
-    const name = document.getElementById('compName');
-    const password = document.getElementById('compPassword');
-    const confirmPwd = document.getElementById('compConfirmPassword');
-    const email = document.getElementById('compEmail');
-    const birthdate = document.getElementById('compBirthdate');
-    const about = document.getElementById('compAbout');
-    const skills = document.getElementById('compSkills');
-    const experience = document.getElementById('compExperience');
-    const agree = document.getElementById('compAgree');
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+    let valid = true;
 
-    const loginErr = document.getElementById('compLoginError');
-    const nameErr = document.getElementById('compNameError');
-    const pwdErr = document.getElementById('compPasswordError');
-    const confirmErr = document.getElementById('compConfirmError');
-    const emailErr = document.getElementById('compEmailError');
-    const birthErr = document.getElementById('compBirthdateError');
-    const aboutErr = document.getElementById('compAboutError');
-    const skillsErr = document.getElementById('compSkillsError');
-    const expErr = document.getElementById('compExperienceError');
-    const agreeErr = document.getElementById('compAgreeError');
-    const successDiv = document.getElementById('compSuccessMessage');
+    const inputs = form.querySelectorAll('.form-control');
 
-    // Регулярные выражения
-    const loginRegex = /^[a-zA-Z0-9]{3,16}$/;
-    const nameRegex = /^[А-Яа-яЁё]+([\s\-][А-Яа-яЁё]+)*$/;
-    const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!?@#$%^&*_\-+()\[\]{}><\/\\|"'.,:;])[A-Za-z\u0400-\u04FF\d~!?@#$%^&*_\-+()\[\]{}><\/\\|"'.,:;]{8,128}$/;
-    const aboutSkillsRegex = /^.{20,}$/s;
+    inputs.forEach(input => {
+        input.classList.remove('error-input');
+        input.nextElementSibling.textContent = '';
+    });
 
-    // Сложная проверка email по варианту
-    function isValidEmailComplex(emailStr) {
-        const atPos = emailStr.indexOf('@');
-        if (atPos === -1) return false;
-        const localPart = emailStr.substring(0, atPos);
-        const domainPart = emailStr.substring(atPos + 1);
-        if (!localPart.match(/^[A-Za-z0-9]{2,}$/)) return false;
-        const parts = domainPart.split('.');
-        if (parts.length < 2) return false;
-        for (let i = 0; i < parts.length; i++) {
-            const part = parts[i];
-            if (!part.match(/^[A-Za-z0-9]{2,}$/)) return false;
-            if (i === parts.length - 1) {
-                if (part.length > 4) return false;
-            } else {
-                if (part.length < 2) return false;
-            }
+    const login = document.getElementById('simpleLogin');
+    const password = document.getElementById('simplePassword');
+    const email = document.getElementById('simpleEmail');
+    const phone = document.getElementById('simplePhone');
+    const fio = document.getElementById('simpleFio');
+    const faculty = document.getElementById('simpleFaculty');
+    const department = document.getElementById('simpleDepartment');
+
+    function error(input, msg){
+        input.classList.add('error-input');
+        input.nextElementSibling.textContent = msg;
+        valid = false;
+    }
+
+    if (!login.value.trim()) error(login, "Введите логин");
+    if (password.value.length < 6) error(password, "Минимум 6 символов");
+    if (!email.value.includes('@')) error(email, "Email должен содержать @");
+    if (!/^\d+$/.test(phone.value)) error(phone, "Только цифры");
+    if (!fio.value.trim()) error(fio, "Введите ФИО");
+    if (!faculty.value.trim()) error(faculty, "Введите факультет");
+    if (!department.value.trim()) error(department, "Введите кафедру");
+
+    if (valid) {
+        alert("Простая проверка пройдена ✅");
+        form.reset();
+    }
+});
+
+})();
+
+(function(){
+
+const form = document.getElementById('complexForm');
+if (!form) return;
+
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+    let valid = true;
+
+    function show(input, id, msg){
+        input.classList.add('error-input');
+        document.getElementById(id).textContent = msg;
+        valid = false;
+    }
+
+    function clear(input, id){
+        input.classList.remove('error-input');
+        document.getElementById(id).textContent = '';
+    }
+
+    const login = compLogin;
+    const password = compPassword;
+    const confirm = compConfirmPassword;
+    const email = compEmail;
+    const phone = compPhone;
+    const birth = compBirthdate;
+    const fio = compFio;
+    const faculty = compFaculty;
+    const department = compDepartment;
+
+    const loginRegex = /^[A-Za-z0-9]{3,}$/;
+    const phoneRegex = /^\+?\d{10,15}$/;
+    const fioRegex = /^[А-Яа-яЁё\s]+$/;
+    const facultyRegex = /^[А-Яа-яЁё\s\-]{3,}$/;
+
+    function validEmail(emailStr){
+        const parts = emailStr.split('@');
+        if (parts.length !== 2) return false;
+
+        if (!/^[A-Za-z0-9]{2,}$/.test(parts[0])) return false;
+
+        const domain = parts[1].split('.');
+        if (domain.length < 2) return false;
+
+        for (let i=0;i<domain.length;i++){
+            if (!/^[A-Za-z0-9]{2,}$/.test(domain[i])) return false;
+            if (i === domain.length-1 && domain[i].length > 4) return false;
         }
         return true;
     }
 
-    function isValidDate(dateStr) {
-        if (!dateStr) return false;
-        const date = new Date(dateStr);
-        if (isNaN(date.getTime())) return false;
-        const minDate = new Date('1920-01-01');
-        const today = new Date();
-        today.setHours(0,0,0,0);
-        return date >= minDate && date <= today;
-    }
+    if (!loginRegex.test(login.value)) show(login,"compLoginError","Минимум 3 символа, латиница и цифры");
+    else clear(login,"compLoginError");
 
-    function isValidExperience(exp) {
-        if (exp === '') return true;
-        const val = Number(exp);
-        return !isNaN(val) && val >= 0 && val <= 1200;
-    }
+    if (password.value.length < 8) show(password,"compPasswordError","Минимум 8 символов");
+    else clear(password,"compPasswordError");
 
-    function showError(input, errorDiv, msg) {
-        if (input) input.classList.add('error-input');
-        if (errorDiv) errorDiv.textContent = msg;
-    }
-    function clearError(input, errorDiv) {
-        if (input) input.classList.remove('error-input');
-        if (errorDiv) errorDiv.textContent = '';
-    }
+    if (confirm.value !== password.value) show(confirm,"compConfirmError","Пароли не совпадают");
+    else clear(confirm,"compConfirmError");
 
-    function validateForm() {
-        let valid = true;
+    if (!validEmail(email.value)) show(email,"compEmailError","Неверный формат email по условию");
+    else clear(email,"compEmailError");
 
-        if (!login.value.trim()) {
-            showError(login, loginErr, 'Введите логин');
-            valid = false;
-        } else if (!loginRegex.test(login.value.trim())) {
-            showError(login, loginErr, 'Логин: 3-16 символов, только латиница и цифры');
-            valid = false;
-        } else {
-            clearError(login, loginErr);
-        }
+    if (!phoneRegex.test(phone.value)) show(phone,"compPhoneError","Телефон 10-15 цифр");
+    else clear(phone,"compPhoneError");
 
-        if (!name.value.trim()) {
-            showError(name, nameErr, 'Введите имя');
-            valid = false;
-        } else if (!nameRegex.test(name.value.trim())) {
-            showError(name, nameErr, 'Имя: только кириллица, пробел или дефис');
-            valid = false;
-        } else {
-            clearError(name, nameErr);
-        }
+    if (!birth.value) show(birth,"compBirthdateError","Выберите дату");
+    else clear(birth,"compBirthdateError");
 
-        if (!password.value) {
-            showError(password, pwdErr, 'Введите пароль');
-            valid = false;
-        } else if (!pwdRegex.test(password.value)) {
-            showError(password, pwdErr, 'Пароль: 8-128 символов, строчная, заглавная, цифра, спецсимвол');
-            valid = false;
-        } else {
-            clearError(password, pwdErr);
-        }
+    if (!fioRegex.test(fio.value)) show(fio,"compFioError","Только кириллица");
+    else clear(fio,"compFioError");
 
-        if (!confirmPwd.value) {
-            showError(confirmPwd, confirmErr, 'Подтвердите пароль');
-            valid = false;
-        } else if (confirmPwd.value !== password.value) {
-            showError(confirmPwd, confirmErr, 'Пароли не совпадают');
-            valid = false;
-        } else {
-            clearError(confirmPwd, confirmErr);
-        }
+    if (!faculty.value.trim()) show(faculty,"compFacultyError","Введите факультет");
+    else clear(faculty,"compFacultyError");
 
-        if (!email.value.trim()) {
-            showError(email, emailErr, 'Введите E-mail');
-            valid = false;
-        } else if (!isValidEmailComplex(email.value.trim())) {
-            showError(email, emailErr, 'Email должен быть вида: local@domain.ru, где local ≥2 букв/цифр, после @ цепочки ≥2 символов, последняя ≤4');
-            valid = false;
-        } else {
-            clearError(email, emailErr);
-        }
+    if (!facultyRegex.test(department.value))
+    show(department,"compDepartmentError","Минимум 3 символа, только кириллица");
+else
+    clear(department,"compDepartmentError");
 
-        if (!birthdate.value) {
-            showError(birthdate, birthErr, 'Выберите дату рождения');
-            valid = false;
-        } else if (!isValidDate(birthdate.value)) {
-            showError(birthdate, birthErr, 'Дата должна быть от 01.01.1920 до сегодня');
-            valid = false;
-        } else {
-            clearError(birthdate, birthErr);
-        }
-
-        if (!about.value.trim()) {
-            showError(about, aboutErr, 'Заполните "О себе"');
-            valid = false;
-        } else if (!aboutSkillsRegex.test(about.value)) {
-            showError(about, aboutErr, 'Минимум 20 символов');
-            valid = false;
-        } else {
-            clearError(about, aboutErr);
-        }
-
-        if (!skills.value.trim()) {
-            showError(skills, skillsErr, 'Заполните "Навыки"');
-            valid = false;
-        } else if (!aboutSkillsRegex.test(skills.value)) {
-            showError(skills, skillsErr, 'Минимум 20 символов');
-            valid = false;
-        } else {
-            clearError(skills, skillsErr);
-        }
-
-        if (!experience.value || experience.value === '') {
-            clearError(experience, expErr);
-        } else if (!isValidExperience(experience.value)) {
-            showError(experience, expErr, 'Опыт: от 0 до 1200 лет');
-            valid = false;
-        } else {
-            clearError(experience, expErr);
-        }
-
-        if (!agree.checked) {
-            showError(agree, agreeErr, 'Необходимо согласие с условиями');
-            valid = false;
-        } else {
-            clearError(agree, agreeErr);
-        }
-
-        return valid;
-    }
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (validateForm()) {
-            successDiv.style.display = 'block';
-            successDiv.textContent = '✅ Все поля заполнены корректно! Сложная проверка пройдена.';
-            form.reset();
-            document.querySelectorAll('#complexForm .error-input').forEach(el => el.classList.remove('error-input'));
-            document.querySelectorAll('#complexForm .error-message').forEach(el => el.textContent = '');
-            setTimeout(() => { successDiv.style.display = 'none'; }, 5000);
-        } else {
-            successDiv.style.display = 'none';
-        }
-    });
-
-    document.getElementById('compResetBtn').addEventListener('click', function() {
+    if (valid){
+        alert("Сложная проверка пройдена ✅");
         form.reset();
-        document.querySelectorAll('#complexForm .error-input').forEach(el => el.classList.remove('error-input'));
-        document.querySelectorAll('#complexForm .error-message').forEach(el => el.textContent = '');
-        successDiv.style.display = 'none';
-    });
+    }
 
-    const allFields = [login, name, password, confirmPwd, email, birthdate, about, skills, experience, agree];
-    allFields.forEach(field => {
-        if (field) {
-            field.addEventListener('blur', () => validateForm());
-            field.addEventListener('focus', () => { successDiv.style.display = 'none'; });
-        }
+});
+
+})();
+
+
+(function(){
+
+const textDisplay = document.getElementById("typingText");
+if (!textDisplay) return;
+
+const input = document.getElementById("typingInput");
+const startBtn = document.getElementById("startTypingBtn");
+const restartBtn = document.getElementById("restartTypingBtn");
+
+let totalTyped = 0;
+let totalErrors = 0;
+
+const timeLeftDisplay = document.getElementById("timeLeft");
+const cpmDisplay = document.getElementById("cpm");
+const accuracyDisplay = document.getElementById("accuracy");
+
+const recordDisplay = document.getElementById("recordCpm");
+
+let record = localStorage.getItem("typingRecord") || 0;
+recordDisplay.textContent = record;
+
+const wordsBase = [
+"дом","работа","машина","окно","река","студент","книга","компьютер","телефон","программа",
+"университет","город","улица","парк","лес","море","гора","школа","кафедра","факультет",
+"экзамен","задание","проект","разработка","интернет","браузер","клавиатура","мышка","экран","код",
+"функция","переменная","объект","массив","цикл","условие","алгоритм","данные","сервер","клиент",
+"документ","форма","календарь","дата","время","событие","обработка","ошибка","проверка","регистрация",
+"логин","пароль","почта","телефон","адрес","городской","система","информация","анализ","результат",
+"контроль","оценка","учеба","практика","теория","пример","запрос","ответ","модель","структура",
+"процесс","скорость","точность","навык","метод","решение","вариант","таблица","список","блок",
+"игра","уровень","победа","результат","тренировка","знание","опыт","тест","символ","буква",
+"строка","слово","текст","раздел","кнопка","нажатие","движение","обновление","стиль","дизайн",
+"цвет","фон","граница","размер","позиция","центр","лево","право","верх","низ",
+"примерно","часто","редко","иногда","всегда","никогда","сегодня","завтра","вчера","сейчас",
+"быстро","медленно","сложно","просто","легко","трудно","новый","старый","важный","главный",
+"дополнительный","основной","случайный","уникальный","динамический","активный","пассивный","логический","реальный","виртуальный",
+"внутренний","внешний","полный","пустой","короткий","длинный","широкий","узкий","сильный","слабый",
+"яркий","темный","теплый","холодный","высокий","низкий","глубокий","поверхностный","точный","примерный",
+"материал","энергия","ресурс","команда","участник","развитие","поддержка","платформа","приложение","интерфейс",
+"пользователь","администратор","авторизация","безопасность","шифрование","подключение","соединение","передача","хранение","загрузка",
+"выгрузка","обновление","синхронизация","архив","копия","файл","папка","директория","ссылка","страница",
+"контент","заголовок","описание","сообщение","уведомление","параметр","настройка","режим","фильтр","сортировка",
+"поиск","ввод","вывод","печать","монитор","камера","микрофон","динамик","проектор","память",
+"процессор","графика","сеть","маршрут","сигнал","доступ","контакт","профиль","аккаунт","подписка",
+"статистика","аналитика","показатель","отчет","план","задача","цель","приоритет","дедлайн","график",
+"сценарий","пример","шаблон","модуль","библиотека","фреймворк","компонент","контроллер","механизм","движок",
+"редактор","консоль","терминал","компиляция","запуск","сборка","релиз","версия","обновление","поддержка",
+"инструкция","описание","руководство","доклад","лекция","семинар","курс","сертификат","диплом","специалист",
+"инженер","разработчик","аналитик","дизайнер","менеджер","директор","эксперт","стратегия","тактика","подход",
+"исследование","эксперимент","наблюдение","гипотеза","вывод","заключение","теорема","формула","график","диаграмма",
+"статус","режим","переход","кнопка","панель","окружение","среда","область","категория","тип",
+"класс","наследование","методика","структурирование","архитектура","проектирование","оптимизация","ускорение","производительность","нагрузка"
+];
+const textLength = 120;
+
+let currentText = "";
+let time = 30;
+let timer = null;
+let started = false;
+
+const wordsCount = 25; 
+
+function setRandomText(){
+    textDisplay.innerHTML = "";
+    currentText = "";
+
+    let lastWord = "";
+
+    for (let i = 0; i < wordsCount; i++){
+        let randomWord;
+
+        do {
+            randomWord = wordsBase[Math.floor(Math.random() * wordsBase.length)];
+        } while (randomWord === lastWord);
+
+        currentText += randomWord + " ";
+        lastWord = randomWord;
+    }
+
+    currentText = currentText.trim();
+
+    currentText.split("").forEach(char => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        textDisplay.appendChild(span);
     });
+}
+
+function startGame(){
+    if (started) return;
+
+    input.disabled = false;
+    input.focus();
+}
+
+function updateAccuracy(){
+    if (totalTyped === 0){
+        accuracyDisplay.textContent = 100;
+        return;
+    }
+
+    const accuracy = Math.round(((totalTyped - totalErrors) / totalTyped) * 100);
+    accuracyDisplay.textContent = accuracy;
+}
+
+function restartGame(){
+    clearInterval(timer);
+    time = 30;
+    started = false;
+    input.value = "";
+    input.disabled = true;
+
+    timeLeftDisplay.textContent = time;
+    cpmDisplay.textContent = 0;
+    totalTyped = 0;
+    totalErrors = 0;
+    accuracyDisplay.textContent = 100;
+
+    setRandomText();
+}
+
+function checkRecord(){
+    const currentCpm = parseInt(cpmDisplay.textContent);
+
+    if (currentCpm > record){
+        record = currentCpm;
+        localStorage.setItem("typingRecord", record);
+        recordDisplay.textContent = record;
+
+        alert("🎉 Новый рекорд!");
+    }
+}
+
+input.addEventListener("keydown", function(e){
+
+    if (!started){
+        started = true;
+
+        timer = setInterval(()=>{
+            time--;
+            timeLeftDisplay.textContent = time;
+
+            if (time <= 0){
+                clearInterval(timer);
+                input.disabled = true;
+                started = false;
+
+                checkRecord();
+                alert("Время вышло!");
+}
+
+        },1000);
+    }
+
+    const spans = textDisplay.querySelectorAll("span");
+    const currentIndex = input.value.length;
+    const expectedChar = spans[currentIndex]?.textContent;
+
+    if (e.key === "Backspace") {
+        return;
+    }
+
+    if (!expectedChar){
+        e.preventDefault();
+        return;
+    }
+
+    if (e.key !== expectedChar){
+    e.preventDefault();
+
+    totalErrors++;
+    totalTyped++;
+
+    updateAccuracy();
+
+    input.classList.add("input-error");
+    setTimeout(() => {
+        input.classList.remove("input-error");
+    }, 200);
+
+    return;
+}
+
+
+    totalTyped++;
+    updateAccuracy();
+
+    setTimeout(() => {
+        spans[currentIndex].classList.add("correct");
+    }, 0);
+});
+
+input.addEventListener("input", function(){
+
+    const typedLength = input.value.length;
+
+    const minutes = (30 - time) / 60;
+    const cpm = minutes > 0 ? Math.round(typedLength / minutes) : 0;
+
+    cpmDisplay.textContent = cpm;
+
+    if (typedLength === currentText.length){
+        clearInterval(timer);
+        input.disabled = true;
+        started = false;
+
+        checkRecord();
+        alert("Текст полностью введён!");
+    }
+});
+
+startBtn.onclick = startGame;
+restartBtn.onclick = restartGame;
+
+restartGame();
+
 })();
