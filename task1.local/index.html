@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Идеальный вес</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h2>Расчет идеального веса</h2>
+
+<form id="formWeight">
+
+    <p>Выберите пол:</p>
+    <label>
+        <input type="radio" name="sex" value="man"> Мужчина
+    </label>
+    <label>
+        <input type="radio" name="sex" value="woman"> Женщина
+    </label>
+
+    <br><br>
+
+    <p>
+        Рост: <span id="heightValue">170</span> см
+    </p>
+
+    <input type="range" id="height" name="height"
+           min="140" max="220" value="170">
+
+    <br><br>
+
+    <button type="button" id="btnCalc">
+        Идеальный вес
+    </button>
+
+</form>
+
+<hr>
+
+<div id="result" style="font-weight:bold;"></div>
+
+<script>
+    // Показываем текущее значение роста
+    $("#height").on("input", function () {
+        $("#heightValue").text($(this).val());
+    });
+
+    // Отправка AJAX
+    $("#btnCalc").click(function () {
+
+        let sex = $("input[name='sex']:checked").val();
+        let height = $("#height").val();
+
+        if (!sex) {
+            alert("Выберите пол!");
+            return;
+        }
+
+        $.ajax({
+            url: "a3.php",
+            type: "POST",
+            data: {
+                sex: sex,
+                height: height
+            },
+            success: function (response) {
+                $("#result").html(response);
+            },
+            error: function () {
+                $("#result").html("Ошибка при отправке запроса");
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

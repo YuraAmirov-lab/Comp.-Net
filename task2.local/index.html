@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise Delay – задержка выполнения</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        input {
+            font-size: 18px;
+            padding: 5px;
+            width: 120px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Задание 2. Вариант 1: Задержка выполнения Promise Delay</h2>
+
+    <p>
+        Введите время задержки в миллисекундах:
+    </p>
+
+    <input type="number" id="time" value="2000" min="0">
+
+    <br>
+
+    <button id="run">Запустить задержку</button>
+
+    <pre id="output">Нажмите кнопку</pre>
+
+    <script>
+        // Функция delay(ms), которая возвращает Promise
+        function delay(ms) {
+            return new Promise(resolve => {
+                setTimeout(resolve, ms);
+            });
+        }
+
+        document.getElementById("run").onclick = () => {
+            const output = document.getElementById("output");
+            const ms = Number(document.getElementById("time").value);
+
+            output.textContent = "Запуск программы...\n";
+
+            const start = Date.now();
+
+            output.textContent += "Начало задержки\n";
+
+            delay(ms).then(() => {
+                const elapsed = Date.now() - start;
+
+                output.textContent += `Задержка завершена через ${elapsed} мс\n`;
+                output.textContent += "Promise выполнен успешно";
+            });
+
+            output.textContent += "Этот текст выводится сразу, не дожидаясь окончания задержки\n";
+        };
+    </script>
+
+</body>
+</html>
