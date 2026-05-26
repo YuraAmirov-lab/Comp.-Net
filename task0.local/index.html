@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Меню-шторка</title>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+body {
+    background: url("images/i.jpg") no-repeat center center fixed;
+    background-size: cover; 
+}
+
+#menuButton {
+    position: fixed;
+    top: 40%;
+    left: 0;
+    width: 45px;
+    height: 140px;
+    background: white;
+    writing-mode: vertical-rl;
+    text-align: center;
+    line-height: 45px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 3px 0 8px rgba(0,0,0,0.4);
+    z-index: 1000;
+}
+
+#sideMenu {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: rgba(255,255,255,0.95);
+    padding-top: 120px;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.4);
+}
+
+#sideMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sideMenu li {
+    padding: 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#sideMenu li:hover {
+    background: #f4c542;
+    padding-left: 30px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="menuButton">MENU</div>
+
+<div id="sideMenu">
+    <ul>
+        <li>Spaghetti</li>
+        <li>Penne</li>
+        <li>Fusilli</li>
+        <li>Shrimp Scampi</li>
+    </ul>
+</div>
+
+<script>
+$(document).ready(function(){
+
+    let open = false;
+
+    $("#menuButton").click(function(){
+
+        if(!open){
+            $("#sideMenu").animate({ left: "0px" }, 600);
+            open = true;
+        } else {
+            $("#sideMenu").animate({ left: "-260px" }, 600);
+            open = false;
+        }
+
+    });
+
+});
+</script>
+
+</body>
+</html>
